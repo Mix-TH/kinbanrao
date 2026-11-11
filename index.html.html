@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siam Haven Resort & Spa</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Prompt:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Prompt', 'Kanit', sans-serif;
+        }
+        :root {
+            --primary-color: #1a3c27; 
+            --accent-color: #2c5e3b;  
+            --earth-warm: #8c6d46;    
+            --highlight-color: #e2b04d; 
+            --bg-color: #f2f5f1;       
+            --card-bg: #ffffff;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: #2b302c;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 🌿 ตกแต่งพุ่มไม้ขอบข้างเว็บ (Botanical Background) */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: -30px;
+            width: 220px;
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            opacity: 0.12;
+            mask-image: linear-gradient(to right, rgba(0,0,0,1) 30%, rgba(0,0,0,0));
+            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 30%, rgba(0,0,0,0));
+            pointer-events: none;
+            z-index: 1;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            right: -30px;
+            width: 220px;
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
+            opacity: 0.12;
+            transform: scaleX(-1);
+            mask-image: linear-gradient(to right, rgba(0,0,0,1) 30%, rgba(0,0,0,0));
+            -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 30%, rgba(0,0,0,0));
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 8%;
+            background-color: rgba(26, 60, 39, 0.96);
+            backdrop-filter: blur(8px);
+            color: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--highlight-color);
+            letter-spacing: 1.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.8rem;
+        }
+        .nav-links a {
+            color: #e0e8e2;
+            text-decoration: none;
+            font-weight: 300;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--highlight-color);
+        }
+
+        .page-view {
+            display: none;
+            position: relative;
+            z-index: 2;
+        }
+        .page-view.active {
+            display: block;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(18, 43, 28, 0.55), rgba(18, 43, 28, 0.65)), url('https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1400&q=80') center/cover;
+            height: 55vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding: 0 1rem;
+        }
+        .hero h1 {
+            font-size: 2.6rem;
+            margin-bottom: 0.8rem;
+            font-weight: 500;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            font-weight: 300;
+            color: #e2ede5;
+        }
+
+        /* Container & Titles */
+        .container {
+            max-width: 1080px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            color: var(--primary-color);
+        }
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 500;
+        }
+        .section-title p {
+            color: #5c6b60;
+            font-size: 0.95rem;
+            margin-top: 4px;
+        }
+        .leaf-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 8px;
+            color: var(--earth-warm);
+        }
+
+        /* Cards Grid Layouts */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .card-item {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(26, 60, 39, 0.06);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #e1e8e2;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(26, 60, 39, 0.12);
+        }
+        .card-img-wrapper {
+            position: relative;
+            height: 240px;
+            overflow: hidden;
+        }
+        .card-img-large {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .card-item:hover .card-img-large {
+            transform: scale(1.08);
+        }
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(26, 60, 39, 0.85);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            backdrop-filter: blur(4px);
+        }
+        .card-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card-info h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 0.4rem;
+        }
+        .card-price {
+            color: var(--earth-warm);
+            font-size: 1.35rem;
+            font-weight: 600;
+            margin: 0.5rem 0 1rem;
+        }
+
+        /* Buttons */
+        .btn-detail {
+            width: 100%;
+            padding: 0.75rem;
+            background: #eaf2eb;
+            border: 1px solid var(--accent-color);
+            color: var(--primary-color);
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-detail:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* PHOTO GALLERY MODAL DIALOG */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 30, 20, 0.75);
+            backdrop-filter: blur(6px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-box {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            animation: modalFadeIn 0.3s ease-out;
+            padding: 2rem;
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #666;
+            z-index: 10;
+        }
+        .modal-title {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-bottom: 0.3rem;
+        }
+        .photo-gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 1.5rem 0;
+        }
+        .gallery-item {
+            position: relative;
+            height: 180px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+        .gallery-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.75));
+            color: white;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+            font-weight: 300;
+        }
+
+        /* REVIEWS SECTION */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        .review-card {
+            background: white;
+            padding: 1.8rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            border: 1px solid #e1e8e2;
+        }
+        .stars {
+            color: var(--highlight-color);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .reviewer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 1rem;
+        }
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        /* Form Section */
+        .booking-wrapper {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(26, 60, 39, 0.05);
+            border: 1px solid #e1e8e2;
+            margin-bottom: 4rem;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.4rem;
+            color: var(--primary-color);
+        }
+        .form-group input, .form-group select {
+            padding: 0.8rem;
+            border: 1px solid #c8d4cb;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: #fafcfb;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent-color);
+            background: #fff;
+        }
+        .summary-box {
+            background-color: #eaf2eb;
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .summary-box p {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.6rem;
+        }
+        .summary-box .total {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            border-top: 1px dashed #b1c9b6;
+            padding-top: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 1.1rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-submit:hover {
+            background-color: var(--primary-color);
+        }
+        
+        .qr-container {
+            display: none;
+            text-align: center;
+            background: #f9fbf9;
+            padding: 2rem;
+            border: 2px dashed var(--accent-color);
+            border-radius: 12px;
+            margin-top: 2rem;
+        }
+        .qr-container img {
+            max-width: 220px;
+            margin: 1.2rem 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .btn-line {
+            display: inline-block;
+            background-color: #06c755;
+            color: white;
+            padding: 0.9rem 1.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+        }
+
+        /* POLICIES SECTION */
+        .policy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+        .policy-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-top: 4px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .policy-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* FAQ ACCORDION SECTION */
+        .faq-wrapper {
+            margin-bottom: 4rem;
+        }
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border: 1px solid #e1e8e2;
+        }
+        .faq-question {
+            padding: 1.2rem;
+            font-weight: 500;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            transition: background 0.3s;
+        }
+        .faq-question:hover {
+            background: #f4f7f4;
+        }
+        .faq-answer {
+            padding: 0 1.2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: #55665a;
+            font-size: 0.95rem;
+        }
+        .faq-item.active .faq-answer {
+            padding: 1rem 1.2rem 1.2rem 1.2rem;
+            max-height: 200px;
+        }
+        .faq-item.active .faq-toggle {
+            transform: rotate(180deg);
+        }
+        .faq-toggle {
+            transition: transform 0.3s;
+        }
+
+        /* MAP & CONTACT PAGE */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .contact-card {
+            background: white;
+            padding: 2.2rem;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+            border: 1px solid #e1e8e2;
+        }
+        .contact-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1.2rem;
+        }
+        .map-frame {
+            width: 100%;
+            height: 260px;
+            border: 0;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        /* FLOATING ACTION BUTTONS */
+        .floating-contact {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 999;
+        }
+        .float-btn {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+            transition: transform 0.3s;
+        }
+        .float-btn:hover {
+            transform: scale(1.1);
+        }
+        .float-line { background-color: #06c755; }
+        .float-phone { background-color: var(--earth-warm); }
+
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            background: var(--primary-color);
+            color: #d1dfd5;
+            margin-top: 4rem;
+            font-weight: 300;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 600px) {
+            .photo-gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <nav class="navbar">
+        <div class="logo">🌿 SIAM HAVEN</div>
+        <ul class="nav-links">
+            <li><a id="nav-home" class="active" onclick="switchPage('home')">หน้าแรก & จองห้องพัก</a></li>
+            <li><a id="nav-contact" onclick="switchPage('contact')">ติดต่อเรา</a></li>
+        </ul>
+    </nav>
+
+    <!-- PAGE 1: HOME & BOOKING PAGE -->
+    <div id="page-home" class="page-view active">
+        <header class="hero">
+            <div>
+                <h1>โอบล้อมด้วยธรรมชาติ สัมผัสความสุขแห่งการพักผ่อน</h1>
+                <p>รีสอร์ตสไตล์ทรอปิคอลใจกลางขุนเขา พร้อมเมนูอาหารสุดพิเศษและแพ็กเกจทริปท่องเที่ยว</p>
+            </div>
+        </header>
+
+        <div class="container">
+            <!-- 🛏️ Rooms List -->
+            <div class="section-title">
+                <h2>ประเภทห้องพักของเรา</h2>
+                <div class="leaf-divider">🍃</div>
+                <p>กดปุ่มเพื่อรับชมรูปภาพมุมต่างๆ ภายในห้องพักได้ทันที</p>
+            </div>
+
+            <div class="grid-3">
+                <!-- Room 1 -->
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <span class="card-badge">ยอดนิยม</span>
+                        <img src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=600&q=80" alt="Deluxe Garden Villa" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>Deluxe Garden Villa</h3>
+                        <div style="font-size: 0.85rem; color: #55665a; margin-bottom: 0.5rem;">📐 45 ตร.ม. | 🛏️ เตียงคิงไซส์ | 🌿 วิวสวน</div>
+                        <div class="card-price">1,500 บาท / คืน</div>
+                        <button class="btn-detail" onclick="openRoomGallery('deluxe')">🖼️ คลิกชมรูปภาพภายในห้องพัก</button>
+                    </div>
+                </div>
+
+                <!-- Room 2 -->
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <span class="card-badge" style="background: var(--earth-warm);">หรูหราพิเศษ</span>
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80" alt="Grand Pool Villa Suite" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>Grand Pool Villa Suite</h3>
+                        <div style="font-size: 0.85rem; color: #55665a; margin-bottom: 0.5rem;">📐 85 ตร.ม. | 🏊 สระส่วนตัว | ⛰️ วิวภูเขา</div>
+                        <div class="card-price">2,800 บาท / คืน</div>
+                        <button class="btn-detail" onclick="openRoomGallery('suite')">🖼️ คลิกชมรูปภาพภายในห้องพัก</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🍽️ DINING & FOOD MENU SECTION (ภาพเบิ้มๆ) -->
+            <div class="section-title">
+                <h2>ห้องอาหาร & เมนูรสเลิศ (Haven Dining)</h2>
+                <div class="leaf-divider">🍃</div>
+                <p>คัดสรรวัตถุดิบอินทรีย์สดใหม่ ปรุงรสด้วยความพิถีพิถันจากเชฟระดับพรีเมียม</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=800&q=80" alt="ต้มยำกุ้งแม่น้ำออร์แกนิก" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>ต้มยำกุ้งแม่น้ำออร์แกนิก</h3>
+                        <p style="font-size: 0.9rem; color: #55665a;">กุ้งแม่น้ำตัวโตในน้ำซุปรสเข้มข้น หอมกลิ่นสมุนไพรสดจากสวนหลังรีสอร์ต</p>
+                        <div class="card-price">350 บาท</div>
+                    </div>
+                </div>
+                
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=800&q=80" alt="สเต๊กซี่โครงหมูซอสบาร์บีคิวรมควัน" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>ซี่โครงหมูอบซอสบาร์บีคิวรมควัน</h3>
+                        <p style="font-size: 0.9rem; color: #55665a;">ซี่โครงหมูนุ่มละลายในปาก หมักซอสสูตรพิเศษ อบรมควันด้วยไม้แอปเปิล</p>
+                        <div class="card-price">480 บาท</div>
+                    </div>
+                </div>
+
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?auto=format&fit=crop&w=800&q=80" alt="เครื่องดื่มสมุนไพร & Tropical Cocktail" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>Haven Tropical Cocktails</h3>
+                        <p style="font-size: 0.9rem; color: #55665a;">เครื่องดื่มรีเฟรชชิ่งจากน้ำผลไม้สด ผสมผสานสมุนไพรไทยให้ความสดชื่น</p>
+                        <div class="card-price">180 บาท</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 🏞️ TOUR & EXCURSION TRIPS SECTION (ทริปภูเขา & ทะเล ภาพเบิ้มๆ) -->
+            <div class="section-title">
+                <h2>ทริปท่องเที่ยวสุดพิเศษ (Excursion Packages)</h2>
+                <div class="leaf-divider">🍃</div>
+                <p>เปิดประสบการณ์การเดินทางสำรวจธรรมชาติ ทั้งทริปภูเขาหมอกและทริปทะเลอันดามัน</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <span class="card-badge" style="background: #2b5e3b;">⛰️ ทริปภูเขา</span>
+                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" alt="ทริปท่องเขาใหญ่ & ชมทะเลหมอก" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>ทริปท่องเขาใหญ่ & ชมทะเลหมอก</h3>
+                        <p style="font-size: 0.9rem; color: #55665a;">เดินป่าศึกษาธรรมชาติ ส่องสัตว์ยามเช้า เดินชมจุดชมวิวทะเลหมอกผาเดียวดาย (รวมรถรับส่ง & ไกด์)</p>
+                        <div class="card-price">1,200 บาท / ท่าน</div>
+                    </div>
+                </div>
+
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <span class="card-badge" style="background: #0077b6;">🌊 ทริปทะเล</span>
+                        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="ทริปดำน้ำเกาะทะเลอันดามัน" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>ทริปสปีดโบ๊ท ดำน้ำเกาะทะเลสวย</h3>
+                        <p style="font-size: 0.9rem; color: #55665a;">นั่งเรือสปีดโบ๊ทท่องเกาะ ดำน้ำชมปะการังน้ำใส ชายหาดทรายขาวละเอียด (รวมอุปกรณ์ดำน้ำ & อาหารกลางวัน)</p>
+                        <div class="card-price">2,500 บาท / ท่าน</div>
+                    </div>
+                </div>
+
+                <div class="card-item">
+                    <div class="card-img-wrapper">
+                        <span class="card-badge" style="background: #d4af37;">🛶 ทริปผจญภัย</span>
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=800&q=80" alt="ทริปล่องแก่ง & น้ำตกธรรมชาติ" class="card-img-large">
+                    </div>
+                    <div class="card-info">
+                        <h3>ทริปล่องแก่งเรือยาง & เล่นน้ำตก</h3>
+                        <p style="font-size: 0.9rem; color: #55665a;">สัมผัสความตื่นเต้นกับการล่องแก่งลำน้ำธรรมชาติ แวะเล่นน้ำตกเย็นฉ่ำใจกลางป่าลึก</p>
+                        <div class="card-price">950 บาท / ท่าน</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking Section -->
+            <div class="section-title" id="booking-form-section">
+                <h2>สำรองห้องพัก & ซื้อทริปท่องเที่ยวออนไลน์</h2>
+                <div class="leaf-divider">🍃</div>
+            </div>
+            
+            <div class="booking-wrapper">
+                <form id="bookingForm">
+                    <div class="form-group">
+                        <label>เลือกประเภทห้องพัก</label>
+                        <select id="roomType" required>
+                            <option value="1500" data-name="Deluxe Garden Villa">Deluxe Garden Villa (1,500 THB / คืน)</option>
+                            <option value="2800" data-name="Grand Pool Villa Suite">Grand Pool Villa Suite (2,800 THB / คืน)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>วันเช็คอิน (Check-in)</label>
+                            <input type="date" id="checkIn" required>
+                        </div>
+                        <div class="form-group">
+                            <label>วันเช็คเอาท์ (Check-out)</label>
+                            <input type="date" id="checkOut" required>
+                        </div>
+                    </div>
+
+                    <!-- 🎒 เพิ่มตัวเลือกซื้อทริปท่องเที่ยวในฟอร์มจอง -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>เลือกทริปท่องเที่ยวเสริม (Optional)</label>
+                            <select id="tripType">
+                                <option value="0" data-name="ไม่รับทริปเสริม">-- ไม่รับทริปเสริม --</option>
+                                <option value="1200" data-name="ทริปท่องเขาใหญ่ & ชมทะเลหมอก">⛰️ ทริปท่องเขาใหญ่ & ชมทะเลหมอก (+1,200 THB/ท่าน)</option>
+                                <option value="2500" data-name="ทริปสปีดโบ๊ท ดำน้ำเกาะทะเลสวย">🌊 ทริปสปีดโบ๊ท ดำน้ำเกาะทะเลสวย (+2,500 THB/ท่าน)</option>
+                                <option value="950" data-name="ทริปล่องแก่งเรือยาง & เล่นน้ำตก">🛶 ทริปล่องแก่งเรือยาง & เล่นน้ำตก (+950 THB/ท่าน)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>จำนวนผู้เข้าร่วมทริป (ท่าน)</label>
+                            <input type="number" id="tripGuests" value="1" min="1" max="10">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>ชื่อ - นามสกุล ผู้เข้าพัก</label>
+                            <input type="text" id="custName" placeholder="เช่น สมชาย ใจดี" required>
+                        </div>
+                        <div class="form-group">
+                            <label>เบอร์โทรศัพท์ติดต่อ</label>
+                            <input type="tel" id="custPhone" placeholder="08X-XXX-XXXX" required>
+                        </div>
+                    </div>
+
+                    <div class="summary-box">
+                        <p><span>ประเภทห้องพัก:</span> <span id="summaryRoom" style="font-weight: 500;">Deluxe Garden Villa</span></p>
+                        <p><span>ระยะเวลาพัก:</span> <span><strong id="nightCount">0</strong> คืน (<span id="roomTotalPrice">0</span> THB)</span></p>
+                        <p><span>ทริปท่องเที่ยวเสริม:</span> <span id="summaryTrip" style="font-weight: 500;">ไม่รับทริปเสริม</span></p>
+                        <p class="total"><span>ยอดชำระสุทธิรวม:</span> <span><span id="totalPrice">0</span> บาท</span></p>
+                    </div>
+
+                    <button type="submit" class="btn-submit">ยืนยันการจอง และออก QR Code สแกนจ่าย</button>
+                </form>
+
+                <!-- Section สแกน QR Code PromptPay -->
+                <div id="qrSection" class="qr-container">
+                    <h3 style="color: var(--primary-color);">สแกน QR Code เพื่อชำระเงินมัดจำ/ค่าห้องพักและทริป</h3>
+                    <p style="font-size: 0.9rem; color: #666; margin-top: 4px;">ระบบดึงยอดเงินอัตโนมัติ สแกนผ่านแอปธนาคารได้ทันที</p>
+                    <img id="qrImage" src="" alt="PromptPay QR Code">
+                    <p>เมื่อชำระเงินเรียบร้อยแล้ว กรุณากดปุ่มด้านล่างเพื่อส่งสลิปผ่านทาง LINE</p>
+                    <a id="linePayBtn" href="#" target="_blank" class="btn-line">📲 ส่งสลิปและยืนยันการจองผ่าน LINE</a>
+                </div>
+            </div>
+
+            <!-- GUEST REVIEWS SECTION -->
+            <div class="section-title">
+                <h2>ความประทับใจจากผู้เข้าพัก</h2>
+                <div class="leaf-divider">🍃</div>
+                <p>เสียงยืนยันจากความสุขของลูกค้าที่เดินทางมาพักผ่อนกับเรา</p>
+            </div>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <div class="stars">★ ★ ★ ★ ★</div>
+                    <p style="font-size: 0.95rem; color: #445247;">"บรรยากาศดีมากๆ เงียบสงบเหมาะแก่การมาชาร์จแบตชีวิต สระว่ายน้ำส่วนตัวสะอาดมาก อาหารเช้าอร่อย ประทับใจการบริการของพนักงานทุกคนค่ะ"</p>
+                    <div class="reviewer">
+                        <div class="avatar">M</div>
+                        <div>
+                            <strong style="font-size: 0.9rem;">คุณเมธาวี & ครอบครัว</strong><br>
+                            <small style="color: #777;">เข้าพัก Deluxe Garden Villa</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★ ★ ★ ★ ★</div>
+                    <p style="font-size: 0.95rem; color: #445247;">"วิวภูเขาตอนเช้าหมอกลงสวยมากครับ เตียงนอนนุ่มสบาย ห้องพักกว้างขวางเกินราคา เดินทางสะดวกจากกรุงเทพฯ ไม่ไกลเลย มีโอกาสกลับไปอีกแน่นอนครับ"</p>
+                    <div class="reviewer">
+                        <div class="avatar">K</div>
+                        <div>
+                            <strong style="font-size: 0.9rem;">คุณกิตติศักดิ์</strong><br>
+                            <small style="color: #777;">เข้าพัก Grand Pool Villa Suite</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="review-card">
+                    <div class="stars">★ ★ ★ ★ ★</div>
+                    <p style="font-size: 0.95rem; color: #445247;">"ซื้อแพ็กเกจทริปท่องเขาใหญ่เพิ่ม ไกด์ดูแลดีมาก ได้เห็นสัตว์ป่าและทะเลหมอกสวยงามจับใจ คุ้มค่าเงินมากๆ ครับ"</p>
+                    <div class="reviewer">
+                        <div class="avatar">P</div>
+                        <div>
+                            <strong style="font-size: 0.9rem;">คุณภัทราพร</strong><br>
+                            <small style="color: #777;">เข้าพัก Deluxe Garden Villa + ทริปเขาใหญ่</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HOTEL POLICIES SECTION -->
+            <div class="section-title">
+                <h2>ระเบียบและเงื่อนไขการเข้าพัก</h2>
+                <div class="leaf-divider">🍃</div>
+            </div>
+            <div class="policy-grid">
+                <div class="policy-card">
+                    <h4>🕒 เวลาเช็คอิน / เช็คเอาท์</h4>
+                    <p style="font-size: 0.9rem; color: #55665a;">Check-in: ตั้งแต่ 14:00 น.<br>Check-out: ก่อน 12:00 น.<br>(กรณีนอกเวลาโปรดแจ้งฝ่ายบริการ)</p>
+                </div>
+                <div class="policy-card">
+                    <h4>🐾 นโยบายสัตว์เลี้ยง</h4>
+                    <p style="font-size: 0.9rem; color: #55665a;">ยินดีต้อนรับสัตว์เลี้ยงพันธุ์เล็ก (น้ำหนักไม่เกิน 10 กก.) ในโซน Garden Villa โดยมีค่าธรรมเนียม 500 บาท/ตัว/คืน</p>
+                </div>
+                <div class="policy-card">
+                    <h4>🔄 นโยบายการยกเลิก/เลื่อนวัน</h4>
+                    <p style="font-size: 0.9rem; color: #55665a;">แจ้งยกเลิกล่วงหน้า 7 วัน คืนเงิน 100%<br>หากแจ้งก่อน 3 วัน สามารถเลื่อนวันเข้าพักได้ฟรี 1 ครั้งภายใน 3 เดือน</p>
+                </div>
+            </div>
+
+            <!-- FAQ ACCORDION SECTION -->
+            <div class="section-title">
+                <h2>คำถามที่พบบ่อย (FAQ)</h2>
+                <div class="leaf-divider">🍃</div>
+            </div>
+            <div class="faq-wrapper">
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Q: ราคารวมอาหารเช้าแล้วหรือยัง?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        ราคารวมอาหารเช้าแบบบุฟเฟต์สไตล์ทรอปิคอลเรียบร้อยแล้ว สำหรับ 2 ท่านต่อห้องครับ (เปิดให้บริการเวลา 07:00 - 10:30 น.)
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Q: มีที่จอดรถส่วนตัวและระบบรักษาความปลอดภัยหรือไม่?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        รีสอร์ตมีลานจอดรถส่วนตัวกว้างขวาง รองรับได้มากกว่า 30 คัน พร้อมกล้อง CCTV และเจ้าหน้าที่รักษาความปลอดภัยตลอด 24 ชั่วโมง
+                    </div>
+                </div>
+                <div class="faq-item" onclick="toggleFaq(this)">
+                    <div class="faq-question">
+                        <span>Q: สามารถขอเตียงเสริม (Extra Bed) ได้หรือไม่?</span>
+                        <span class="faq-toggle">▼</span>
+                    </div>
+                    <div class="faq-answer">
+                        สามารถเสริมได้ 1 เตียงต่อห้อง มีค่าบริการเตียงเสริมรวมอาหารเช้า 800 บาท/คืน (สามารถแจ้งความประสงค์ผ่าน LINE เพิ่มเติมได้เลยครับ)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: CONTACT US PAGE & MAP -->
+    <div id="page-contact" class="page-view">
+        <div class="container" style="margin-top: 3rem;">
+            <div class="section-title">
+                <h2>ติดต่อ Siam Haven Resort & การเดินทาง</h2>
+                <div class="leaf-divider">🍃</div>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>ข้อมูลติดต่อ & ที่ตั้ง</h3>
+                    <p>📍 <strong>ที่อยู่:</strong> 123 หมู่ 4 ต.หมูสี อ.ปากช่อง จ.นครราชสีมา 30130</p><br>
+                    <p>📞 <strong>เบอร์โทรศัพท์:</strong> 044-123-4567, 081-999-9999</p><br>
+                    <p>💬 <strong>LINE Official:</strong> @siamhaven</p><br>
+                    <p>✉️ <strong>อีเมล:</strong> booking@siamhavenresort.com</p><br>
+                    <p>🕒 <strong>เวลาทำการฝ่ายจอง:</strong> 08:00 - 20:00 น. ทุกวัน</p>
+                    
+                    <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15443.204557999867!2d101.4111!3d14.5422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x311c4a0000000001%3A0x1!2sKhao%20Yai%20National%20Park!5e0!3m2!1sth!2sth!4v1600000000000!5m2!1sth!2sth" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                
+                <div class="contact-card">
+                    <h3>สถานที่ท่องเที่ยวใกล้เคียง</h3>
+                    <ul style="list-style: none; color: #55665a; font-size: 0.95rem;">
+                        <li style="margin-bottom: 10px;">🌲 <strong>ด่านอุทยานแห่งชาติเขาใหญ่:</strong> 5.2 กม. (ขับรถ 8 นาที)</li>
+                        <li style="margin-bottom: 10px;">☕ <strong>Primo Piazza & คาเฟ่ชื่อดัง:</strong> 3.8 กม. (ขับรถ 5 นาที)</li>
+                        <li style="margin-bottom: 10px;">🍇 <strong>PB Valley Khao Yai Winery:</strong> 12 กม. (ขับรถ 15 นาที)</li>
+                        <li style="margin-bottom: 10px;">🌻 <strong>ไร่มณีศร ทุ่งทานตะวัน:</strong> 8.5 กม. (ขับรถ 12 นาที)</li>
+                    </ul>
+                    <hr style="margin: 1.5rem 0; border: none; border-top: 1px dashed #c8d4cb;">
+                    <h3>ชำระเงินผ่านบัญชีโดยตรง</h3>
+                    <p>🏛️ <strong>ธนาคาร:</strong> กสิกรไทย (KBANK)</p>
+                    <p>💳 <strong>เลขที่บัญชี / PromptPay:</strong> 081-999-9999</p>
+                    <p>👤 <strong>ชื่อบัญชี:</strong> บจก. สยาม เฮเว่น รีสอร์ท</p>
+                    <br>
+                    <a href="https://line.me" target="_blank" class="btn-line" style="display: block; text-align: center;">📲 แอด LINE สอบถามการเดินทางเพิ่มเติม</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DIALOG PHOTO GALLERY -->
+    <div id="galleryModal" class="modal-overlay" onclick="closeRoomGallery(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeRoomGallery()">&times;</button>
+            <h3 id="galleryTitle" class="modal-title"></h3>
+            <p id="gallerySubtitle" style="color: #55665a; font-size: 0.95rem;"></p>
+            
+            <div id="galleryGrid" class="photo-gallery-grid"></div>
+
+            <p style="font-size: 0.85rem; color: #777; text-align: center; margin-top: 1rem;">
+                * ทุกห้องพักรวม Wi-Fi ความเร็วสูง, เครื่องปรับอากาศ, อาหารเช้าแบบบุฟเฟต์ และอุปกรณ์อาบน้ำสปาครบชุด
+            </p>
+        </div>
+    </div>
+
+    <!-- FLOATING ACTION BUTTONS -->
+    <div class="floating-contact">
+        <a href="https://line.me" target="_blank" class="float-btn float-line" title="แชตผ่าน LINE">💬</a>
+        <a href="tel:0819999999" class="float-btn float-phone" title="โทรสอบถามด่วน">📞</a>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Siam Haven Resort. All rights reserved. (Static Web Demo for Vercel)</p>
+    </footer>
+
+    <!-- Logic System Scripts -->
+    <script>
+        const roomGalleries = {
+            deluxe: {
+                title: "Deluxe Garden Villa (45 ตร.ม.)",
+                subtitle: "วิลลาเตียงคิงไซส์ โอบล้อมด้วยสวนธรรมชาติ และระเบียงนั่งเล่นส่วนตัว",
+                photos: [
+                    { url: "https://images.unsplash.com/photo-1618773928121-c32242e63f39?auto=format&fit=crop&w=600&q=80", label: "🛏️ เตียงนอน King Size & บรรยากาศภายใน" },
+                    { url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80", label: "🚿 ห้องน้ำสไตล์โมเดิร์นพร้อม Rain Shower" },
+                    { url: "https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=600&q=80", label: "🌿 ระเบียงรับลมส่วนตัวชมวิวสวน" },
+                    { url: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=600&q=80", label: "🍵 มุมพักผ่อนและจิบชา" }
+                ]
+            },
+            suite: {
+                title: "Grand Pool Villa Suite (85 ตร.ม.)",
+                subtitle: "พูลวิลลาหรูพร้อมสระส่วนตัว อ่างจากุซซี่ และวิวทิวเขาแบบพาโนรามา",
+                photos: [
+                    { url: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80", label: "🛏️ เตียงนอน Super King Size มองเห็นสระส่วนตัว" },
+                    { url: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=80", label: "🛁 อ่างอาบน้ำสไตล์จากุซซี่พร้อมกระจกชมวิว" },
+                    { url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=600&q=80", label: "🏊 สระว่ายน้ำระบบเกลือส่วนตัว" },
+                    { url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=600&q=80", label: "⛰️ เตียงอาบแดดพร้อมวิวทิวเขา" }
+                ]
+            }
+        };
+
+        function openRoomGallery(roomId) {
+            const data = roomGalleries[roomId];
+            if (!data) return;
+
+            document.getElementById('galleryTitle').textContent = data.title;
+            document.getElementById('gallerySubtitle').textContent = data.subtitle;
+
+            const grid = document.getElementById('galleryGrid');
+            grid.innerHTML = '';
+            
+            data.photos.forEach(photo => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.innerHTML = `
+                    <img src="${photo.url}" alt="${photo.label}">
+                    <div class="gallery-label">${photo.label}</div>
+                `;
+                grid.appendChild(item);
+            });
+
+            document.getElementById('galleryModal').classList.add('active');
+        }
+
+        function closeRoomGallery() {
+            document.getElementById('galleryModal').classList.remove('active');
+        }
+
+        function switchPage(pageName) {
+            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-links a').forEach(el => el.classList.remove('active'));
+            
+            document.getElementById(`page-${pageName}`).classList.add('active');
+            document.getElementById(`nav-${pageName}`).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+
+        // Logic คำนวณราคารวม (ค่าห้อง + ค่าทริปท่องเที่ยว)
+        document.addEventListener('DOMContentLoaded', () => {
+            const roomType = document.getElementById('roomType');
+            const checkIn = document.getElementById('checkIn');
+            const checkOut = document.getElementById('checkOut');
+            const tripType = document.getElementById('tripType');
+            const tripGuests = document.getElementById('tripGuests');
+            
+            const nightCount = document.getElementById('nightCount');
+            const roomTotalPrice = document.getElementById('roomTotalPrice');
+            const totalPrice = document.getElementById('totalPrice');
+            const summaryRoom = document.getElementById('summaryRoom');
+            const summaryTrip = document.getElementById('summaryTrip');
+            
+            const bookingForm = document.getElementById('bookingForm');
+            const qrSection = document.getElementById('qrSection');
+            const qrImage = document.getElementById('qrImage');
+            const linePayBtn = document.getElementById('linePayBtn');
+
+            const today = new Date();
+            const tomorrow = new Date();
+            tomorrow.setDate(today.getDate() + 1);
+            
+            checkIn.value = today.toISOString().split('T')[0];
+            checkOut.value = tomorrow.toISOString().split('T')[0];
+
+            function calculateSummary() {
+                const inDate = new Date(checkIn.value);
+                const outDate = new Date(checkOut.value);
+                const pricePerNight = parseFloat(roomType.value);
+                const roomName = roomType.options[roomType.selectedIndex].getAttribute('data-name');
+                
+                const tripPricePerPerson = parseFloat(tripType.value);
+                const tripName = tripType.options[tripType.selectedIndex].getAttribute('data-name');
+                const guestsCount = parseInt(tripGuests.value) || 1;
+
+                summaryRoom.textContent = roomName;
+
+                let nights = 0;
+                let roomTotal = 0;
+                let tripTotal = 0;
+
+                if (inDate && outDate && outDate > inDate) {
+                    const diffTime = outDate.getTime() - inDate.getTime();
+                    nights = Math.ceil(diffTime / (1000 * 3600 * 24));
+                    roomTotal = nights * pricePerNight;
+                }
+
+                if (tripPricePerPerson > 0) {
+                    tripTotal = tripPricePerPerson * guestsCount;
+                    summaryTrip.textContent = `${tripName} (${guestsCount} ท่าน = ${tripTotal.toLocaleString('th-TH')} THB)`;
+                } else {
+                    summaryTrip.textContent = 'ไม่รับทริปเสริม';
+                }
+
+                const grandTotal = roomTotal + tripTotal;
+
+                nightCount.textContent = nights;
+                roomTotalPrice.textContent = roomTotal.toLocaleString('th-TH');
+                totalPrice.textContent = grandTotal.toLocaleString('th-TH');
+
+                return { nights, roomTotal, tripTotal, grandTotal, roomName, tripName, guestsCount };
+            }
+
+            checkIn.addEventListener('change', calculateSummary);
+            checkOut.addEventListener('change', calculateSummary);
+            roomType.addEventListener('change', calculateSummary);
+            tripType.addEventListener('change', calculateSummary);
+            tripGuests.addEventListener('input', calculateSummary);
+            calculateSummary();
+
+            bookingForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const { nights, grandTotal, roomName, tripName, tripTotal, guestsCount } = calculateSummary();
+
+                if (nights <= 0) {
+                    alert('กรุณาเลือกวันเช็คเอาท์ที่หลังจากวันเช็คอินอย่างน้อย 1 คืน');
+                    return;
+                }
+
+                const name = document.getElementById('custName').value;
+                const phone = document.getElementById('custPhone').value;
+                const promptpayNumber = "0819999999";
+
+                const qrUrl = `https://promptpay.io/${promptpayNumber}/${grandTotal}.png`;
+                qrImage.src = qrUrl;
+
+                let tripDetailMsg = tripTotal > 0 ? `\nทริปเสริม: ${tripName} (${guestsCount} ท่าน)` : '';
+                const message = `สวัสดีครับ ต้องการแจ้งจองห้องพัก & ทริป\nคุณ: ${name} (${phone})\nห้อง: ${roomName}\nวันที่เข้าพัก: ${checkIn.value} ถึง ${checkOut.value} (${nights} คืน)${tripDetailMsg}\nยอดชำระสุทธิ: ${grandTotal.toLocaleString('th-TH')} บาท`;
+                const encodedMsg = encodeURIComponent(message);
+                
+                linePayBtn.href = `https://line.me/R/msg/text/?${encodedMsg}`;
+
+                qrSection.style.display = 'block';
+                qrSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+    </script>
+</body>
+</html>
